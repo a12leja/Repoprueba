@@ -1,0 +1,8 @@
+Vagrant.configure("2") do |config|
+ config.vm.define :lxdUbuntu do |lxdUbuntu|
+ lxdUbuntu.vm.box = "bento/ubuntu-20.04"
+ lxdUbuntu.vm.network :private_network, ip: "192.168.100.6"
+ lxdUbuntu.vm.provision "shell", path: "script.sh"
+ lxdUbuntu.vm.hostname = "lxdUbuntu"
+ end
+end
