@@ -1,0 +1,80 @@
+wget https://raw.githubusercontent.com/kubernetes/examples/master/guestbook/all-in-one/guestbook-all-in-one.yaml
+kubectl apply -f guestbook-all-in-one.yaml
+---------punto 1 probar desde vagrant el cluster-----------
+sudo apt-get update
+-----------------------------------
+    2  sudo apt-get install curl apt-transport-https lsb-release gnupg -y
+-----------------------------------
+    3  curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null
+--------------------------------
+    4  AZ_REPO=$(lsb_release -cs)
+----------------------------------
+    5  echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
+---------------------------------
+    6  sudo apt-get update
+----------------------------------
+    7  sudo apt-get install azure-cli
+---------------------------------
+    8  az login
+----------------------------
+    9  
+   10  sudo az aks install-cli
+---------------------------
+   11  ls
+-----------------------------
+   12  az account set --subscription 117b80d9-30d7-49eb-9044-6b2c9637081c
+-----------------------------
+   13 az aks get-credentials --resource-group compunube --name parcial2
+-------------------------------
+   14  kubectl get pods
+-----punto 2-------------------------
+kubectl apply -f https://k8s.io/examples/application/guestbook/redis-master-deployment.yaml
+----------------
+kubectl apply -f https://k8s.io/examples/application/guestbook/redis-master-service.yaml
+-----------------
+kubectl apply -f https://k8s.io/examples/application/guestbook/redis-slave-deployment.yaml
+------------
+kubectl apply -f https://k8s.io/examples/application/guestbook/redis-slave-service.yaml
+-----------------------
+kubectl apply -f https://k8s.io/examples/application/guestbook/frontend-deployment.yaml
+------------------
+kubectl get pods -l app=guestbook -l tier=frontend
+--------------------
+kubectl apply -f https://k8s.io/examples/application/guestbook/frontend-service.yaml
+--------------
+kubectl get services
+-----------
+kubectl get service frontend
+------------
+---------------------punto 3-------------
+mkdir clouddrive/punto3
+------------------------
+curl -O https://raw.githubusercontent.com/Azure-Samples/azure-voting-app-redis/master/azure-vote-all-in-one-redis.yaml
+------------------------------
+kubectl create -f azure-vote-all-in-one-redis.yaml
+--------------------------
+kubectl get pods
+----------------------------
+kubectl get svc
+------------------
+az aks stop --name parcial2 --resource-group compunube  -parar
+-------------------------
+az aks start --name parcial2 --resource-group compunube --encender
+--------------------------
+https://github.com/Azure-Samples/azure-voting-app-redis
+--------------------------
+-------AUTOSCALING-----------
+https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+---------------
+kubectl apply -f https://k8s.io/examples/application/php-apache.yaml
+------------------------
+kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
+-------------------------
+kubectl get hpa
+------------
+kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://php-apache; done"
+---------------------------
+kubectl get hpa
+--------------------
+kubectl get deployment php-apache
+----------------------

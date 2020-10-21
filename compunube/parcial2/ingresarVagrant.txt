@@ -1,0 +1,26 @@
+sudo apt-get update
+-----------------------------------
+    2  sudo apt-get install curl apt-transport-https lsb-release gnupg -y
+-----------------------------------
+    3  curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null
+--------------------------------
+    4  AZ_REPO=$(lsb_release -cs)
+----------------------------------
+    5  echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
+---------------------------------
+    6  sudo apt-get update
+----------------------------------
+    7  sudo apt-get install azure-cli
+---------------------------------
+    8  az login
+----------------------------
+    9  
+   10  sudo az aks install-cli
+---------------------------
+   11  ls
+-----------------------------
+   12  az account set --subscription 117b80d9-30d7-49eb-9044-6b2c9637081c
+-----------------------------
+   13 az aks get-credentials --resource-group compunube --name parcial2
+-------------------------------
+   14  kubectl get pods
